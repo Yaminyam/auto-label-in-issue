@@ -9653,6 +9653,7 @@ async function run() {
       repo: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo,
       issue_number: closing_issue_number,
     });
+    console.log(issue_labels);
     for (const issue_label of issue_labels) {
       const result = await octokit.rest.issues.addLabels({
         owner: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner,

@@ -50,6 +50,7 @@ async function run() {
       repo: context.repo.repo,
       issue_number: closing_issue_number,
     });
+    console.log(issue_labels);
     for (const issue_label of issue_labels) {
       const result = await octokit.rest.issues.addLabels({
         owner: context.repo.owner,
