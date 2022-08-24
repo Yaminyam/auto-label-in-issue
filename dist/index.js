@@ -9631,7 +9631,7 @@ async function run() {
     const closing_issue_number_request = await octokit.graphql({
       query: `query {
         repository(owner: "${_actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner}", name: "${_actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo}") {
-          pullRequest(number: 10) {
+          pullRequest(number: ${number}) {
               id
               closingIssuesReferences (first: 1) {
                 edges {
