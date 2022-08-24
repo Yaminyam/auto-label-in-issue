@@ -1,7 +1,7 @@
 
 
 name: Auto Label in Issue
-description: 'Assign author to pull requests when the pull requests are opened.'
+description: 'Add the same tag of the issue associated with the pull_request.'
 author: 'Yaminyam'
 inputs:
   repo-token:

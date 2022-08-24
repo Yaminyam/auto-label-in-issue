@@ -30,7 +30,7 @@ async function run() {
         repository(owner: "${context.repo.owner}", name: "${context.repo.repo}") {
           pullRequest(number: ${number}) {
               id
-              closingIssuesReferences (first: 1) {
+              closingIssuesReferences (first: 50) {
                 edges {
                   node {
                     id
@@ -44,21 +44,23 @@ async function run() {
         }
       }`,
     });
-    const closing_issue_number = closing_issue_number_request.repository.pullRequest.closingIssuesReferences.edges[0].node.number;
-    const issue_labels = await octokit.rest.issues.listLabelsOnIssue({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      issue_number: closing_issue_number,
-    });
-    const labels = issue_labels.data.map((label) => label.name);
-    const result = await octokit.rest.issues.addLabels({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      issue_number: number,
-      labels: labels,
-    });
-    core.debug(JSON.stringify(result));
-    core.info(`@${author} has been assigned to the pull request: #${number}`);
+    const closing_issue_numbers = closing_issue_number_request.repository.pullRequest.closingIssuesReferences.edges.map((edge) => edge.node.number);
+    for (const closing_issue_number of closing_issue_numbers) {
+      const issue_labels = await octokit.rest.issues.listLabelsOnIssue({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        issue_number: closing_issue_number,
+      });
+      const labels = issue_labels.data.map((label) => label.name);
+      const result = await octokit.rest.issues.addLabels({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        issue_number: number,
+        labels: labels,
+      });
+      core.debug(JSON.stringify(result));
+      core.info(`@${author} has been assigned to the pull request: #${number}`);
+    }
   } catch (error) {
     core.setFailed(error.message);
   }

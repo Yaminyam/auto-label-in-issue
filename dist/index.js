@@ -9633,7 +9633,7 @@ async function run() {
         repository(owner: "${_actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner}", name: "${_actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo}") {
           pullRequest(number: ${number}) {
               id
-              closingIssuesReferences (first: 1) {
+              closingIssuesReferences (first: 50) {
                 edges {
                   node {
                     id
@@ -9647,21 +9647,23 @@ async function run() {
         }
       }`,
     });
-    const closing_issue_number = closing_issue_number_request.repository.pullRequest.closingIssuesReferences.edges[0].node.number;
-    const issue_labels = await octokit.rest.issues.listLabelsOnIssue({
-      owner: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner,
-      repo: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo,
-      issue_number: closing_issue_number,
-    });
-    const labels = issue_labels.data.map((label) => label.name);
-    const result = await octokit.rest.issues.addLabels({
-      owner: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner,
-      repo: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo,
-      issue_number: number,
-      labels: labels,
-    });
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.debug(JSON.stringify(result));
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`@${author} has been assigned to the pull request: #${number}`);
+    const closing_issue_numbers = closing_issue_number_request.repository.pullRequest.closingIssuesReferences.edges.map((edge) => edge.node.number);
+    for (const closing_issue_number of closing_issue_numbers) {
+      const issue_labels = await octokit.rest.issues.listLabelsOnIssue({
+        owner: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner,
+        repo: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo,
+        issue_number: closing_issue_number,
+      });
+      const labels = issue_labels.data.map((label) => label.name);
+      const result = await octokit.rest.issues.addLabels({
+        owner: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner,
+        repo: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo,
+        issue_number: number,
+        labels: labels,
+      });
+      _actions_core__WEBPACK_IMPORTED_MODULE_0__.debug(JSON.stringify(result));
+      _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`@${author} has been assigned to the pull request: #${number}`);
+    }
   } catch (error) {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
   }
