@@ -1,0 +1,15 @@
+
+
+name: Auto Label in Issue
+description: 'Assign author to pull requests when the pull requests are opened.'
+author: 'Yaminyam'
+inputs:
+  repo-token:
+    description: 'A token for the repository'
+    default: ${{ github.token }}
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+branding:
+  icon: 'user-plus'
+  color: 'red'
