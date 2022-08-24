@@ -44,7 +44,7 @@ async function run() {
         }
       }`,
     });
-    const closing_issue_number = closing_issue_number.repository.pullRequest.closingIssuesReferences.edges[0].node.number;
+    const closing_issue_number = closing_issue_number_request.repository.pullRequest.closingIssuesReferences.edges[0].node.number;
     const issue_labels = await octokit.issues.listLabelsOnIssue({
       owner: context.repo.owner,
       repo: context.repo.repo,
