@@ -1,5 +1,7 @@
 # auto-label-in-issue
 
+GitHub Actions: Add the same tag of the issue associated with the pull_request.
+
 ## Usage
 
 ```yml
