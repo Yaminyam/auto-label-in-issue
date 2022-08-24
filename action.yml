@@ -9,7 +9,7 @@ inputs:
     default: ${{ github.token }}
 runs:
   using: 'node16'
-  main: 'src/index.js'
+  main: 'dist/index.js'
 branding:
   icon: 'user-plus'
   color: 'red'
