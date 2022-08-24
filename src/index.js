@@ -51,16 +51,14 @@ async function run() {
       issue_number: closing_issue_number,
     });
     const labels = issue_labels.data.map((label) => label.name);
-    for (const issue_label of issue_labels) {
-      const result = await octokit.rest.issues.addLabels({
-        owner: context.repo.owner,
-        repo: context.repo.repo,
-        issue_number: number,
-        labels: [labels],
-      });
-      core.debug(JSON.stringify(result));
-      core.info(`@${author} has been assigned to the pull request: #${number}`);
-    }
+    const result = await octokit.rest.issues.addLabels({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      issue_number: number,
+      labels: labels,
+    });
+    core.debug(JSON.stringify(result));
+    core.info(`@${author} has been assigned to the pull request: #${number}`);
   } catch (error) {
     core.setFailed(error.message);
   }

@@ -9654,16 +9654,14 @@ async function run() {
       issue_number: closing_issue_number,
     });
     const labels = issue_labels.data.map((label) => label.name);
-    for (const issue_label of issue_labels) {
-      const result = await octokit.rest.issues.addLabels({
-        owner: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner,
-        repo: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo,
-        issue_number: number,
-        labels: [labels],
-      });
-      _actions_core__WEBPACK_IMPORTED_MODULE_0__.debug(JSON.stringify(result));
-      _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`@${author} has been assigned to the pull request: #${number}`);
-    }
+    const result = await octokit.rest.issues.addLabels({
+      owner: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner,
+      repo: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo,
+      issue_number: number,
+      labels: labels,
+    });
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.debug(JSON.stringify(result));
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`@${author} has been assigned to the pull request: #${number}`);
   } catch (error) {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
   }
