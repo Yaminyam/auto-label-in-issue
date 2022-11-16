@@ -19,5 +19,5 @@ jobs:
   auto-label:
     runs-on: ubuntu-latest
     steps:
-      - uses: Yaminyam/auto-label-in-issue@1.0.0
+      - uses: Yaminyam/auto-label-in-issue@1.1.0
 ```
